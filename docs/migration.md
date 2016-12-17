@@ -24,7 +24,7 @@ Here are the big ticket items you'll want to be aware of when moving from v3 to 
 - Switched from [Less](http://lesscss.org/) to [Sass](http://sass-lang.com/) for our source CSS files.
 - Switched from `px` to `rem` as our primary CSS unit, though pixels are still used for media queries and grid behavior as viewports are not affected by type size.
 - Global font-size increased from `14px` to `16px`.
-- Added a new grid tier for ~`480px` and below.
+- Added a new grid tier for smaller devices at `576px` and below.
 - Replaced the separate optional theme with configurable options via SCSS variables (e.g., `$enable-gradients: true`).
 
 ### Grid system
@@ -64,7 +64,7 @@ New to Bootstrap 4 is the Reboot, a new stylesheet that builds on Normalize with
 ### Typography
 
 - Moved all `.text-` utilities to the `_utilities.scss` file.
-- Dropped `.page-header` as, aside from the border, all it's styles can be applied via utilities.
+- Dropped `.page-header` as, aside from the border, all its styles can be applied via utilities.
 - `.dl-horizontal` has been dropped. Instead, use `.row` on `<dl>` and use grid column classes (or mixins) on its `<dt>` and `<dd>` children.
 - Custom `<blockquote>` styling has moved to classes—`.blockquote` and the `.blockquote-reverse` modifier.
 - `.list-inline` now requires that its children list items have the new `.list-inline-item` class applied to them.
@@ -72,6 +72,8 @@ New to Bootstrap 4 is the Reboot, a new stylesheet that builds on Normalize with
 ### Images
 
 - Renamed `.img-responsive` to `.img-fluid`.
+- Renamed `.img-rounded` to `.rounded`
+- Renamed `.img-circle` to `.rounded-circle`
 
 ### Tables
 
@@ -105,6 +107,7 @@ New to Bootstrap 4 is the Reboot, a new stylesheet that builds on Normalize with
 ### Button group
 
 - Dropped the `.btn-group-xs` class entirely given removal of `.btn-xs`.
+- Removed justified button groups as they were only available for `<a>` elements and not `<button>` elements.
 
 ### Dropdowns
 
@@ -118,7 +121,7 @@ New to Bootstrap 4 is the Reboot, a new stylesheet that builds on Normalize with
 
 ### Grid system
 
-- Added a new `~480px` grid breakpoint, meaning there are now five total tiers.
+- Added a new `576px` grid breakpoint as `sm`, meaning there are now five total tiers (`xs`, `sm`, `md`, `lg`, and `xl`).
 - Renamed the responsive grid modifier classes from `.col-{breakpoint}-{modifier}-{size}` to `.{modifier}-{breakpoint}-{size}` for simpler grid classes. For example, instead of `.col-md-3.col-md-push-9` it's `col-md-3.push-md-9`.
 - Overhauled the grid mixins to merge `make-col` and `make-col-span` into a single `make-col` mixin, thereby ensuring mixins and predefined classes utilize the same float/flex behaviors.
 - Added flexbox utility classes for grid system and components.
@@ -180,11 +183,19 @@ Dropped entirely for the new card component.
 
 ### Carousel
 
-- Renamed `.item` to `.carousel-item`.
+- Overhauled the entire component to simplify design and styling. We have fewer styles for you to override, new indicators, and new icons.
+- All CSS has been un-nested and renamed, ensuring each class is prefixed with `.carousel-`.
+  - For carousel items, `.next`, `.prev`, `.left`, and `.right` are now `.carousel-item-next`, `.carousel-item-prev`, `.carousel-item-left`, and `.carousel-item-right`.
+  - `.item` is also now `.carousel-item`.
+  - For prev/next controls, `.carousel-control.right` and `.carousel-control.left` are now `.carousel-control-right` and `.carousel-control-left`, meaning they no longer require a specific base class.
+- Removed all responsive styling, deferring to utilities (e.g., showing captions on certain viewports) and custom styles as needed.
+- Removed image overrides for images in carousel items, deferring to utilities.
+- Tweaked the Carousel example to include the new markup and styles.
 
 ### Utilities
 
-- Added `.float-{xs,sm,md,lg,xl}-{left,right,none}` classes for responsive floats and removed `.pull-left` and `.pull-right` since they're redundant to `.float-xs-left` and `.float-xs-right`.
+- Made display utilities responsive (e.g., `.d-none` and `d-{sm,md,lg,xl}-none`).
+- Added `.float-{sm,md,lg,xl}-{left,right,none}` classes for responsive floats and removed `.pull-left` and `.pull-right` since they're redundant to `.float-left` and `.float-right`.
 - Added responsive variations to our text alignment classes `.text-{xs,sm,md,lg,xl}-{left,center,right}` and removed the redundant `.text-{left,center,right}` utilities as they are the same as the `xs` variation.
 - Dropped `.center-block` for the new `.mx-auto` class.
 

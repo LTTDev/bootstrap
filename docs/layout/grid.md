@@ -22,7 +22,7 @@ At a high level, here's how the grid system works:
 - Content should be placed within columns, and only columns may be immediate children of rows.
 - Column classes indicate the number of columns you'd like to use out of the possible 12 per row. So if you want three equal-width columns, you'd use `.col-sm-4`.
 - Column `width`s are set in percentages, so they're always fluid and sized relative to their parent element.
-- Columns have horizontal `padding` to create the gutters between individual columns.
+- Columns have horizontal `padding` to create the gutters between individual columns, however, you can remove the `margin` from rows and `padding` from columns with `.no-gutters` on the `.row`.
 - There are five grid tiers, one for each [responsive breakpoint]({{ site.baseurl }}/layout/overview/#responsive-breakpoints): extra small, small, medium, large, and extra large.
 - Grid tiers are based on minimum widths, meaning they apply to that one tier and all those above it (e.g., `.col-sm-4` applies to small, medium, large, and extra large devices).
 - You can use predefined grid classes or Sass mixins for more semantic markup.
@@ -62,23 +62,23 @@ See how aspects of the Bootstrap grid system work across multiple devices with a
     <thead>
       <tr>
         <th></th>
-        <th class="text-xs-center">
+        <th class="text-center">
           Extra small<br>
           <small>&lt;576px</small>
         </th>
-        <th class="text-xs-center">
+        <th class="text-center">
           Small<br>
           <small>&ge;576px</small>
         </th>
-        <th class="text-xs-center">
+        <th class="text-center">
           Medium<br>
           <small>&ge;768px</small>
         </th>
-        <th class="text-xs-center">
+        <th class="text-center">
           Large<br>
           <small>&ge;992px</small>
         </th>
-        <th class="text-xs-center">
+        <th class="text-center">
           Extra large<br>
           <small>&ge;1200px</small>
         </th>
@@ -100,7 +100,7 @@ See how aspects of the Bootstrap grid system work across multiple devices with a
       </tr>
       <tr>
         <th class="text-nowrap" scope="row">Class prefix</th>
-        <td><code>.col-xs-</code></td>
+        <td><code>.col-</code></td>
         <td><code>.col-sm-</code></td>
         <td><code>.col-md-</code></td>
         <td><code>.col-lg-</code></td>
@@ -329,27 +329,27 @@ Using a single set of `.col-md-*` grid classes, you can create a basic grid syst
 
 ### Example: Mobile and desktop
 
-Don't want your columns to simply stack in smaller devices? Use the extra small and medium device grid classes by adding `.col-xs-*` and `.col-md-*` to your columns. See the example below for a better idea of how it all works.
+Don't want your columns to simply stack in smaller devices? Use the extra small and medium device grid classes by adding `.col-*` and `.col-md-*` to your columns. See the example below for a better idea of how it all works.
 
 <div class="bd-example-row">
 {% example html %}
 <!-- Stack the columns on mobile by making one full-width and the other half-width -->
 <div class="row">
-  <div class="col-xs-12 col-md-8">.col-xs-12 .col-md-8</div>
-  <div class="col-xs-6 col-md-4">.col-xs-6 .col-md-4</div>
+  <div class="col-12 col-md-8">.col-12 .col-md-8</div>
+  <div class="col-6 col-md-4">.col-6 .col-md-4</div>
 </div>
 
 <!-- Columns start at 50% wide on mobile and bump up to 33.3% wide on desktop -->
 <div class="row">
-  <div class="col-xs-6 col-md-4">.col-xs-6 .col-md-4</div>
-  <div class="col-xs-6 col-md-4">.col-xs-6 .col-md-4</div>
-  <div class="col-xs-6 col-md-4">.col-xs-6 .col-md-4</div>
+  <div class="col-6 col-md-4">.col-6 .col-md-4</div>
+  <div class="col-6 col-md-4">.col-6 .col-md-4</div>
+  <div class="col-6 col-md-4">.col-6 .col-md-4</div>
 </div>
 
 <!-- Columns are always 50% wide, on mobile and desktop -->
 <div class="row">
-  <div class="col-xs-6">.col-xs-6</div>
-  <div class="col-xs-6">.col-xs-6</div>
+  <div class="col-6">.col-6</div>
+  <div class="col-6">.col-6</div>
 </div>
 {% endexample %}
 </div>
@@ -361,15 +361,45 @@ Build on the previous example by creating even more dynamic and powerful layouts
 <div class="bd-example-row">
 {% example html %}
 <div class="row">
-  <div class="col-xs-12 col-sm-6 col-md-8">.col-xs-12 .col-sm-6 .col-md-8</div>
-  <div class="col-xs-6 col-md-4">.col-xs-6 .col-md-4</div>
+  <div class="col-12 col-sm-6 col-md-8">.col-12 .col-sm-6 .col-md-8</div>
+  <div class="col-6 col-md-4">.col-6 .col-md-4</div>
 </div>
 <div class="row">
-  <div class="col-xs-6 col-sm-4">.col-xs-6 .col-sm-4</div>
-  <div class="col-xs-6 col-sm-4">.col-xs-6 .col-sm-4</div>
+  <div class="col-6 col-sm-4">.col-6 .col-sm-4</div>
+  <div class="col-6 col-sm-4">.col-6 .col-sm-4</div>
   <!-- Optional: clear the XS cols if their content doesn't match in height -->
   <div class="clearfix hidden-sm-up"></div>
-  <div class="col-xs-6 col-sm-4">.col-xs-6 .col-sm-4</div>
+  <div class="col-6 col-sm-4">.col-6 .col-sm-4</div>
+</div>
+{% endexample %}
+</div>
+
+### Example: Remove gutters
+
+The gutters between columns in our default, predefined grid classes can be removed with `.no-gutters`. This removes the negative `margin`s from `.row` and the horizontal `padding` from all immediate children columns.
+
+Here's the source code for creating these styles. Note that column overrides are scoped to only the first children columns and are targeted via [attribute selector](https://developer.mozilla.org/en-US/docs/Web/CSS/Attribute_selectors). While this generates a more specific selector, column padding can still be further customized with [spacing utilities]({{ site.baseurl }}/utilities/spacing/).
+
+{% highlight sass %}
+.no-gutters {
+  margin-right: 0;
+  margin-left: 0;
+
+  > .col,
+  > [class*="col-"] {
+    padding-right: 0;
+    padding-left: 0;
+  }
+}
+{% endhighlight %}
+
+In practice, here's how it looks. Note you can continue to use this with all other predefined grid classes (including column widths, responsive tiers, reorders, and more).
+
+<div class="bd-example-row">
+{% example html %}
+<div class="row no-gutters">
+  <div class="col-12 col-sm-6 col-md-8">.col-12 .col-sm-6 .col-md-8</div>
+  <div class="col-6 col-md-4">.col-6 .col-md-4</div>
 </div>
 {% endexample %}
 </div>
@@ -381,9 +411,9 @@ If more than 12 columns are placed within a single row, each group of extra colu
 <div class="bd-example-row">
 {% example html %}
 <div class="row">
-  <div class="col-xs-9">.col-xs-9</div>
-  <div class="col-xs-4">.col-xs-4<br>Since 9 + 4 = 13 &gt; 12, this 4-column-wide div gets wrapped onto a new line as one contiguous unit.</div>
-  <div class="col-xs-6">.col-xs-6<br>Subsequent columns continue along the new line.</div>
+  <div class="col-9">.col-9</div>
+  <div class="col-4">.col-4<br>Since 9 + 4 = 13 &gt; 12, this 4-column-wide div gets wrapped onto a new line as one contiguous unit.</div>
+  <div class="col-6">.col-6<br>Subsequent columns continue along the new line.</div>
 </div>
 {% endexample %}
 </div>
@@ -395,14 +425,14 @@ With the four tiers of grids available you're bound to run into issues where, at
 <div class="bd-example-row">
 {% example html %}
 <div class="row">
-  <div class="col-xs-6 col-sm-3">.col-xs-6 .col-sm-3</div>
-  <div class="col-xs-6 col-sm-3">.col-xs-6 .col-sm-3</div>
+  <div class="col-6 col-sm-3">.col-6 .col-sm-3</div>
+  <div class="col-6 col-sm-3">.col-6 .col-sm-3</div>
 
   <!-- Add the extra clearfix for only the required viewport -->
   <div class="clearfix hidden-sm-up"></div>
 
-  <div class="col-xs-6 col-sm-3">.col-xs-6 .col-sm-3</div>
-  <div class="col-xs-6 col-sm-3">.col-xs-6 .col-sm-3</div>
+  <div class="col-6 col-sm-3">.col-6 .col-sm-3</div>
+  <div class="col-6 col-sm-3">.col-6 .col-sm-3</div>
 </div>
 {% endexample %}
 </div>
@@ -453,11 +483,11 @@ To nest your content with the default grid, add a new `.row` and set of `.col-sm
   <div class="col-sm-9">
     Level 1: .col-sm-9
     <div class="row">
-      <div class="col-xs-8 col-sm-6">
-        Level 2: .col-xs-8 .col-sm-6
+      <div class="col-8 col-sm-6">
+        Level 2: .col-8 .col-sm-6
       </div>
-      <div class="col-xs-4 col-sm-6">
-        Level 2: .col-xs-4 .col-sm-6
+      <div class="col-4 col-sm-6">
+        Level 2: .col-4 .col-sm-6
       </div>
     </div>
   </div>
