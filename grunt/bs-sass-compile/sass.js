@@ -9,7 +9,7 @@ module.exports = function configureRubySass(grunt) {
     style: 'expanded',
     trace: true,
     bundleExec: true
-  };
+  }
   grunt.config.merge({
     sass: {
       core: {
@@ -21,7 +21,6 @@ module.exports = function configureRubySass(grunt) {
       extras: {
         options: options,
         files: {
-          'dist/css/<%= pkg.name %>-flex.css': 'scss/<%= pkg.name %>-flex.scss',
           'dist/css/<%= pkg.name %>-grid.css': 'scss/<%= pkg.name %>-grid.scss',
           'dist/css/<%= pkg.name %>-reboot.css': 'scss/<%= pkg.name %>-reboot.scss'
         }
@@ -29,11 +28,10 @@ module.exports = function configureRubySass(grunt) {
       docs: {
         options: options,
         files: {
-          'docs/assets/css/docs.min.css': 'docs/assets/scss/docs.scss',
-          'docs/assets/css/docs-flexbox.min.css': 'docs/assets/scss/flex-grid.scss'
+          'docs/assets/css/docs.min.css': 'docs/assets/scss/docs.scss'
         }
       }
     }
-  });
-  grunt.loadNpmTasks('grunt-contrib-sass');
-};
+  })
+  grunt.loadNpmTasks('grunt-contrib-sass')
+}
