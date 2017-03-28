@@ -215,6 +215,9 @@ const Modal = (($) => {
       this._scrollbarWidth      = null
     }
 
+    handleUpdate() {
+      this._adjustDialog()
+    }
 
     // private
 
@@ -296,7 +299,7 @@ const Modal = (($) => {
 
     _setResizeEvent() {
       if (this._isShown) {
-        $(window).on(Event.RESIZE, (event) => this._handleUpdate(event))
+        $(window).on(Event.RESIZE, (event) => this.handleUpdate(event))
       } else {
         $(window).off(Event.RESIZE)
       }
@@ -401,10 +404,6 @@ const Modal = (($) => {
     // todo (fat): these should probably be refactored out of modal.js
     // ----------------------------------------------------------------------
 
-    _handleUpdate() {
-      this._adjustDialog()
-    }
-
     _adjustDialog() {
       const isModalOverflowing =
         this._element.scrollHeight > document.documentElement.clientHeight
@@ -450,7 +449,7 @@ const Modal = (($) => {
       const scrollDiv = document.createElement('div')
       scrollDiv.className = ClassName.SCROLLBAR_MEASURER
       document.body.appendChild(scrollDiv)
-      const scrollbarWidth = scrollDiv.offsetWidth - scrollDiv.clientWidth
+      const scrollbarWidth = scrollDiv.getBoundingClientRect().width - scrollDiv.clientWidth
       document.body.removeChild(scrollDiv)
       return scrollbarWidth
     }
