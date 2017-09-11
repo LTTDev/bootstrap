@@ -1,11 +1,13 @@
+'use strict';
+
 /**
  * --------------------------------------------------------------------------
- * Bootstrap (v4.0.0-alpha.6): util.js
+ * Bootstrap (v4.0.0-beta): util.js
  * Licensed under MIT (https://github.com/twbs/bootstrap/blob/master/LICENSE)
  * --------------------------------------------------------------------------
  */
 
-var Util = function ($) {
+var Util = function () {
 
   /**
    * ------------------------------------------------------------------------
@@ -41,7 +43,7 @@ var Util = function ($) {
         if ($(event.target).is(this)) {
           return event.handleObj.handler.apply(this, arguments); // eslint-disable-line prefer-rest-params
         }
-        return undefined;
+        return undefined; // eslint-disable-line no-undefined
       }
     };
   }
@@ -54,7 +56,7 @@ var Util = function ($) {
     var el = document.createElement('bootstrap');
 
     for (var name in TransitionEndEvent) {
-      if (el.style[name] !== undefined) {
+      if (typeof el.style[name] !== 'undefined') {
         return {
           end: TransitionEndEvent[name]
         };
@@ -116,7 +118,7 @@ var Util = function ($) {
       }
 
       try {
-        var $selector = $(selector);
+        var $selector = $(document).find(selector);
         return $selector.length > 0 ? selector : null;
       } catch (error) {
         return null;
@@ -133,7 +135,7 @@ var Util = function ($) {
     },
     typeCheckConfig: function typeCheckConfig(componentName, config, configTypes) {
       for (var property in configTypes) {
-        if (configTypes.hasOwnProperty(property)) {
+        if (Object.prototype.hasOwnProperty.call(configTypes, property)) {
           var expectedTypes = configTypes[property];
           var value = config[property];
           var valueType = value && isElement(value) ? 'element' : toType(value);
